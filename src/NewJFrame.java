@@ -8,6 +8,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     public NewJFrame() {
         initComponents();
+        umbralMenuItem.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -29,7 +30,7 @@ public class NewJFrame extends javax.swing.JFrame {
         setTitle("Mega Umbralizador Max 5.1.2.985.325");
 
         panelImagen1.setEnabled(false);
-        panelImagen1.setFile(new java.io.File("C:\\Program Files\\NetBeans 8.1\\<Not Set>"));
+        panelImagen1.setFile(new java.io.File("C:\\Program Files (x86)\\NetBeans 8.1\\<Not Set>"));
 
         javax.swing.GroupLayout panelImagen1Layout = new javax.swing.GroupLayout(panelImagen1);
         panelImagen1.setLayout(panelImagen1Layout);
@@ -77,6 +78,11 @@ public class NewJFrame extends javax.swing.JFrame {
 
         umbralMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         umbralMenuItem.setText("Umbralizar");
+        umbralMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                umbralMenuItemActionPerformed(evt);
+            }
+        });
         menuEdit.add(umbralMenuItem);
 
         jMenuBar1.add(menuEdit);
@@ -111,7 +117,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        int res =JOptionPane.showConfirmDialog(rootPane, "¿Seguro que quieres irte polvoron?", "MEIDEI", JOptionPane.YES_NO_OPTION);
+        int res =JOptionPane.showConfirmDialog(rootPane, "¿Seguro que quieres?", "MEIDEI", JOptionPane.YES_NO_OPTION);
         if(res==JOptionPane.YES_OPTION){
             this.dispose();
         }
@@ -127,12 +133,14 @@ public class NewJFrame extends javax.swing.JFrame {
         fc.addChoosableFileFilter(f);
         f = new FileNameExtensionFilter("TIFF: .tif, .tiff", "tif","tiff", "TIF","TIFF");
         fc.addChoosableFileFilter(f);
-        
+        fc.setAcceptAllFileFilterUsed(false);
         int res =fc.showOpenDialog(null);
+        
         if (res == JFileChooser.APPROVE_OPTION) {
             ruta = fc.getSelectedFile();
             panelImagen1.setFile(ruta);
             panelImagen1.paintComponent(panelImagen1.getGraphics());
+            umbralMenuItem.setEnabled(true);
         }
     }//GEN-LAST:event_openMenuItemActionPerformed
 
@@ -146,6 +154,15 @@ public class NewJFrame extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    private void umbralMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umbralMenuItemActionPerformed
+        int i = Integer.parseInt((String) JOptionPane.showInputDialog(rootPane, "Umbral:",
+                "Meter tamaño de umbral",JOptionPane.PLAIN_MESSAGE ,null, null, "0"));
+        
+        panelImagen1.umbralizar(panelImagen1.getI(), i);
+        repaint();
+        panelImagen1.paintComponent(panelImagen1.getGraphics());
+    }//GEN-LAST:event_umbralMenuItemActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
