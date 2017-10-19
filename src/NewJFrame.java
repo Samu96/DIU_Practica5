@@ -1,13 +1,5 @@
 
-import boofcv.alg.filter.binary.GThresholdImageOps;
-import boofcv.core.image.ConvertImage;
-import boofcv.gui.binary.VisualizeBinaryData;
-import boofcv.io.image.ConvertBufferedImage;
-import boofcv.struct.image.GrayU8;
-import boofcv.struct.image.Planar;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.nio.Buffer;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
@@ -41,6 +33,7 @@ public class NewJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelImagen1 = new PanelImagen();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -53,6 +46,20 @@ public class NewJFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mega Umbralizador Max 5.1.2.985.325");
+
+        panelImagen1.setEnabled(false);
+        panelImagen1.setFile(new java.io.File("C:\\Program Files\\NetBeans 8.1\\<Not Set>"));
+
+        javax.swing.GroupLayout panelImagen1Layout = new javax.swing.GroupLayout(panelImagen1);
+        panelImagen1.setLayout(panelImagen1Layout);
+        panelImagen1Layout.setHorizontalGroup(
+            panelImagen1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 694, Short.MAX_VALUE)
+        );
+        panelImagen1Layout.setVerticalGroup(
+            panelImagen1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 481, Short.MAX_VALUE)
+        );
 
         menuFile.setText("Archivos");
 
@@ -106,11 +113,17 @@ public class NewJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 718, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelImagen1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 517, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelImagen1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -137,6 +150,8 @@ public class NewJFrame extends javax.swing.JFrame {
         int res =fc.showOpenDialog(null);
         if (res == JFileChooser.APPROVE_OPTION) {
             ruta = fc.getSelectedFile();
+            panelImagen1.setFile(ruta);
+            panelImagen1.paintComponent(panelImagen1.getGraphics());
         }
     }//GEN-LAST:event_openMenuItemActionPerformed
 
@@ -187,14 +202,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     
-    public BufferedImage umbralizar(BufferedImage imagen, int umbral){
-        Planar<GrayU8> imagenColor = ConvertBufferedImage.convertFromPlanar(imagen, null, true, GrayU8.class);
-        GrayU8 imagenGris = new GrayU8(imagen.getWidth(),imagen.getHeight());
-        GrayU8 imagenUmbralizada = new GrayU8(imagen.getWidth(),imagen.getHeight());
-        ConvertImage.average(imagenColor, imagenGris);
-        GThresholdImageOps.threshold(imagenGris, imagenUmbralizada, umbral, false);
-        return VisualizeBinaryData.renderBinary(imagenUmbralizada, false, null);
-    }
+    
     private File ruta;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem exitMenuItem;
@@ -204,6 +212,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenu menuHelp;
     private javax.swing.JMenuItem openMenuItem;
+    private PanelImagen panelImagen1;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenuItem umbralMenuItem;
     // End of variables declaration//GEN-END:variables
