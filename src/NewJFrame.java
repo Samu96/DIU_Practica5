@@ -6,8 +6,12 @@ import boofcv.io.image.ConvertBufferedImage;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.Planar;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.nio.Buffer;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -63,6 +67,11 @@ public class NewJFrame extends javax.swing.JFrame {
 
         saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         saveMenuItem.setText("Guardar");
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMenuItemActionPerformed(evt);
+            }
+        });
         menuFile.add(saveMenuItem);
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
@@ -115,9 +124,32 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
-         
-        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser(".");
+        FileFilter f = new FileNameExtensionFilter("JPG: .jpg,.jpeg,.jpe", ".jpg",".jpeg",".jpe",".JPG",".JPEG",".JPE");
+        fc.addChoosableFileFilter(f);
+        f = new FileNameExtensionFilter("PNG: .png", ".png",".PNG");
+        fc.addChoosableFileFilter(f);
+        f = new FileNameExtensionFilter("BMP: .bmp", ".bmp", ".BMP");
+        fc.addChoosableFileFilter(f);
+        f = new FileNameExtensionFilter("TIFF: .tif, .tiff", ".tif",".tiff", ".TIF",".TIFF");
+        fc.addChoosableFileFilter(f);
+        
+        int res =fc.showOpenDialog(null);
+        if (res == JFileChooser.APPROVE_OPTION) {
+            ruta = fc.getSelectedFile();
+        }
     }//GEN-LAST:event_openMenuItemActionPerformed
+
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+        JFileChooser fc = new JFileChooser(".");
+        FileFilter f = new FileNameExtensionFilter("JPG: .jpg,.jpeg,.jpe", ".jpg",".jpeg",".jpe");
+        fc.addChoosableFileFilter(f);
+        int res =fc.showSaveDialog(null);
+        if (res == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            
+        }
+    }//GEN-LAST:event_saveMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,6 +195,7 @@ public class NewJFrame extends javax.swing.JFrame {
         GThresholdImageOps.threshold(imagenGris, imagenUmbralizada, umbral, false);
         return VisualizeBinaryData.renderBinary(imagenUmbralizada, false, null);
     }
+    private File ruta;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenuBar jMenuBar1;
