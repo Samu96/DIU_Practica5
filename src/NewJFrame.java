@@ -110,8 +110,8 @@ public class NewJFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelImagen1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addComponent(panelImagen1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -164,7 +164,7 @@ public class NewJFrame extends javax.swing.JFrame {
         int i = Integer.parseInt((String) JOptionPane.showInputDialog(rootPane, "Umbral:",
                 "Meter tamaño de umbral",JOptionPane.PLAIN_MESSAGE ,null, null, "0"));
         repaint();
-        panelImagen1.setI(panelImagen1.umbralizar(panelImagen1.getI(), 1));
+        panelImagen1.setI(panelImagen1.umbralizar(panelImagen1.getI(), i));
         panelImagen1.paintComponent(panelImagen1.getGraphics());
     }//GEN-LAST:event_umbralMenuItemActionPerformed
 
