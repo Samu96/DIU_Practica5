@@ -13,25 +13,19 @@ import javax.swing.JPanel;
 
 public class PanelImagen extends JPanel{
 
-    private File file=null;
     private BufferedImage I = null;
     
     public BufferedImage getI() {
         return I;
     }
     
-    public void setFile(File file) {
-        this.file =file;
+    public void setI(BufferedImage I){
+        this.I = I;
     }
     
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        try{
-            I=ImageIO.read(file);
-        }catch(IOException e){
-            System.out.println("FALLO");
-        }
         g.drawImage(I, 0, 0, null);
     }
     

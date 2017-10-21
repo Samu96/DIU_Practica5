@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
@@ -30,7 +32,6 @@ public class NewJFrame extends javax.swing.JFrame {
         setTitle("Mega Umbralizador Max 5.1.2.985.325");
 
         panelImagen1.setEnabled(false);
-        panelImagen1.setFile(new java.io.File("C:\\Program Files (x86)\\NetBeans 8.1\\<Not Set>"));
 
         javax.swing.GroupLayout panelImagen1Layout = new javax.swing.GroupLayout(panelImagen1);
         panelImagen1.setLayout(panelImagen1Layout);
@@ -138,7 +139,11 @@ public class NewJFrame extends javax.swing.JFrame {
         
         if (res == JFileChooser.APPROVE_OPTION) {
             ruta = fc.getSelectedFile();
-            panelImagen1.setFile(ruta);
+            try{
+                panelImagen1.setI(ImageIO.read(ruta));
+            }catch(IOException e){
+                System.out.println("FALLO");
+            }
             panelImagen1.paintComponent(panelImagen1.getGraphics());
             umbralMenuItem.setEnabled(true);
         }
@@ -158,9 +163,8 @@ public class NewJFrame extends javax.swing.JFrame {
     private void umbralMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umbralMenuItemActionPerformed
         int i = Integer.parseInt((String) JOptionPane.showInputDialog(rootPane, "Umbral:",
                 "Meter tamaño de umbral",JOptionPane.PLAIN_MESSAGE ,null, null, "0"));
-        
-        panelImagen1.umbralizar(panelImagen1.getI(), i);
         repaint();
+        panelImagen1.setI(panelImagen1.umbralizar(panelImagen1.getI(), 1));
         panelImagen1.paintComponent(panelImagen1.getGraphics());
     }//GEN-LAST:event_umbralMenuItemActionPerformed
 
