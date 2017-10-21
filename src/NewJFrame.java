@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -57,6 +59,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
         saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         saveMenuItem.setText("Guardar");
+        saveMenuItem.setEnabled(false);
         saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveMenuItemActionPerformed(evt);
@@ -146,16 +149,33 @@ public class NewJFrame extends javax.swing.JFrame {
             }
             panelImagen1.paintComponent(panelImagen1.getGraphics());
             umbralMenuItem.setEnabled(true);
+            saveMenuItem.setEnabled(true);
         }
     }//GEN-LAST:event_openMenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         JFileChooser fc = new JFileChooser(".");
-        FileFilter f = new FileNameExtensionFilter("JPG: .jpg,.jpeg,.jpe", ".jpg",".jpeg",".jpe");
+        FileFilter f = new FileNameExtensionFilter("JPG: .jpg,.jpeg,.jpe", "jpg","jpeg","jpe","JPG","JPEG","JPE");
         fc.addChoosableFileFilter(f);
+        f = new FileNameExtensionFilter("PNG: .png", "png","PNG");
+        fc.addChoosableFileFilter(f);
+        f = new FileNameExtensionFilter("BMP: .bmp", "bmp", "BMP");
+        fc.addChoosableFileFilter(f);
+        f = new FileNameExtensionFilter("TIFF: .tif, .tiff", "tif","tiff", "TIF","TIFF");
+        fc.addChoosableFileFilter(f);
+        fc.setAcceptAllFileFilterUsed(false);
         int res =fc.showSaveDialog(null);
         if (res == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
+            String fileName = file.toString();
+            String ext = fileName.substring(fileName.lastIndexOf('.')) ;
+            System.out.println(ext);
+            try {
+                ImageIO.write(panelImagen1.getI(),ext,file);
+            } catch (IOException ex) {
+                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                
             
         }
     }//GEN-LAST:event_saveMenuItemActionPerformed
