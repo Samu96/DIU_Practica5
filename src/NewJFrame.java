@@ -13,6 +13,14 @@ public class NewJFrame extends javax.swing.JFrame {
     public NewJFrame() {
         initComponents();
         umbralMenuItem.setEnabled(false);
+        fc= new JFileChooser(".");
+        FileFilter f = new FileNameExtensionFilter("JPG: .jpg,.jpeg,.jpe", "jpg","jpeg","jpe","JPG","JPEG","JPE");
+        fc.addChoosableFileFilter(f);
+        f = new FileNameExtensionFilter("PNG: .png", "png","PNG");
+        fc.addChoosableFileFilter(f);
+        f = new FileNameExtensionFilter("BMP: .bmp", "bmp", "BMP");
+        fc.addChoosableFileFilter(f);
+        fc.setAcceptAllFileFilterUsed(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -31,7 +39,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Mega Umbralizador Max 5.1.2.985.325");
+        setTitle("Umbralizador");
 
         panelImagen1.setEnabled(false);
 
@@ -94,6 +102,11 @@ public class NewJFrame extends javax.swing.JFrame {
         menuHelp.setText("Ayuda");
 
         jMenuItem1.setText("Acerca de...");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         menuHelp.add(jMenuItem1);
 
         jMenuBar1.add(menuHelp);
@@ -121,31 +134,19 @@ public class NewJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        int res =JOptionPane.showConfirmDialog(rootPane, "¿Seguro que quieres?", "MEIDEI", JOptionPane.YES_NO_OPTION);
+        int res =JOptionPane.showConfirmDialog(rootPane, "¿Seguro que quieres?", "Salir", JOptionPane.YES_NO_OPTION);
         if(res==JOptionPane.YES_OPTION){
             this.dispose();
         }
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
-        JFileChooser fc = new JFileChooser(".");
-        FileFilter f = new FileNameExtensionFilter("JPG: .jpg,.jpeg,.jpe", "jpg","jpeg","jpe","JPG","JPEG","JPE");
-        fc.addChoosableFileFilter(f);
-        f = new FileNameExtensionFilter("PNG: .png", "png","PNG");
-        fc.addChoosableFileFilter(f);
-        f = new FileNameExtensionFilter("BMP: .bmp", "bmp", "BMP");
-        fc.addChoosableFileFilter(f);
-        f = new FileNameExtensionFilter("TIFF: .tif, .tiff", "tif","tiff", "TIF","TIFF");
-        fc.addChoosableFileFilter(f);
-        fc.setAcceptAllFileFilterUsed(false);
-        int res =fc.showOpenDialog(null);
         
+        int res =fc.showOpenDialog(null);
         if (res == JFileChooser.APPROVE_OPTION) {
-            ruta = fc.getSelectedFile();
             try{
-                panelImagen1.setI(ImageIO.read(ruta));
+                panelImagen1.setI(ImageIO.read(fc.getSelectedFile()));
             }catch(IOException e){
-                System.out.println("FALLO");
             }
             panelImagen1.paintComponent(panelImagen1.getGraphics());
             umbralMenuItem.setEnabled(true);
@@ -154,32 +155,27 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_openMenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
-        JFileChooser fc = new JFileChooser(".");
-        FileFilter f = new FileNameExtensionFilter("JPG: .jpg,.jpeg,.jpe", "jpg","jpeg","jpe","JPG","JPEG","JPE");
-        fc.addChoosableFileFilter(f);
-        f = new FileNameExtensionFilter("PNG: .png", "png","PNG");
-        fc.addChoosableFileFilter(f);
-        f = new FileNameExtensionFilter("BMP: .bmp", "bmp", "BMP");
-        fc.addChoosableFileFilter(f);
-        f = new FileNameExtensionFilter("TIFF: .tif, .tiff", "tif","tiff", "TIF","TIFF");
-        fc.addChoosableFileFilter(f);
-        fc.setAcceptAllFileFilterUsed(false);
+        
         int res =fc.showSaveDialog(null);
         if (res == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-            String fileName = file.toString();
-            String ext = fileName.substring(fileName.lastIndexOf('.')) ;
-            System.out.println(ext);
+            String fileName = fc.getSelectedFile().getAbsolutePath();
+            String ext;
+            if(fileName.lastIndexOf('.')==-1){
+                ext=((FileNameExtensionFilter)fc.getFileFilter()).getExtensions()[0];
+                fileName = fileName + "." + ext;
+            }else{
+                ext = fileName.substring(fileName.lastIndexOf('.')+1) ;
+            }
             try {
-                ImageIO.write(panelImagen1.getI(),ext,file);
+                ImageIO.write(panelImagen1.getI(),ext,new File(fileName));
             } catch (IOException ex) {
                 Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Fallo al guardar el archivo");
             }
-                
-            
         }
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
+    
     private void umbralMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umbralMenuItemActionPerformed
         int i = Integer.parseInt((String) JOptionPane.showInputDialog(rootPane, "Umbral:",
                 "Meter tamaño de umbral",JOptionPane.PLAIN_MESSAGE ,null, null, "0"));
@@ -187,6 +183,12 @@ public class NewJFrame extends javax.swing.JFrame {
         panelImagen1.setI(panelImagen1.umbralizar(panelImagen1.getI(), i));
         panelImagen1.paintComponent(panelImagen1.getGraphics());
     }//GEN-LAST:event_umbralMenuItemActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        JOptionPane.showMessageDialog(rootPane, "Puedes umbralizar las imagenes que introduzcas"
+                + " en la aplicación, elegir su valor de umbralización,"
+                + " y guardarlo en diferentes formados de imagen.");
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -219,10 +221,8 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
     }
-
     
-    
-    private File ruta;
+    private JFileChooser fc;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenuBar jMenuBar1;
