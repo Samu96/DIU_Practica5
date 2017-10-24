@@ -177,11 +177,23 @@ public class NewJFrame extends javax.swing.JFrame {
 
     
     private void umbralMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umbralMenuItemActionPerformed
-        int i = Integer.parseInt((String) JOptionPane.showInputDialog(rootPane, "Umbral:",
-                "Meter tamaño de umbral",JOptionPane.PLAIN_MESSAGE ,null, null, "0"));
-        repaint();
-        panelImagen1.setI(panelImagen1.umbralizar(panelImagen1.getI(), i));
-        panelImagen1.paintComponent(panelImagen1.getGraphics());
+
+        while(true){
+            try{
+                String v =(String) JOptionPane.showInputDialog(rootPane, "Umbral:",
+                    "Meter tamaño de umbral",JOptionPane.PLAIN_MESSAGE ,null, null, "0");
+                if(v!=null){
+                    int i = Integer.parseInt(v);
+                    repaint();
+                    panelImagen1.setI(panelImagen1.umbralizar(panelImagen1.getI(), i));
+                    panelImagen1.paintComponent(panelImagen1.getGraphics());
+                } 
+                break;
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(rootPane, "Error", "Introduzca un número mayor que cero.", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
     }//GEN-LAST:event_umbralMenuItemActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
