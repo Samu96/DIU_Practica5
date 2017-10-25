@@ -190,7 +190,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 } 
                 break;
             }catch(NumberFormatException e){
-                JOptionPane.showMessageDialog(rootPane, "Error", "Introduzca un número mayor que cero.", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, "Introduzca un número mayor que cero.", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
         
